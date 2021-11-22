@@ -13,6 +13,7 @@ public class GeoServiceImpl implements GeoService {
      * Метод определяет локацию по ip
      */
     public Location byIp(String ip) {
+        System.out.println(ip);
         if (LOCALHOST.equals(ip)) {
             return new Location(null, null, null, 0);
         } else if (MOSCOW_IP.equals(ip)) {
