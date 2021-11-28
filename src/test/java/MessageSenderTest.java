@@ -21,6 +21,8 @@ public class MessageSenderTest {
     private final GeoService geoService;
     private final LocalizationService localizationService;
     private final MessageSenderImpl messageSenderImpl;
+    private final String RUS_LOCAL_RESPONSE = "Добро пожаловать";
+    private final String ENG_LOCAL_RESPONSE = "Welcome";
 
 
     public MessageSenderTest() {
@@ -35,9 +37,9 @@ public class MessageSenderTest {
                 .thenReturn(ENG_LOCATION);
 
         Mockito.when(localizationService.locale(RUSSIA))
-                .thenReturn("Добро пожаловать");
+                .thenReturn(RUS_LOCAL_RESPONSE);
         Mockito.when(localizationService.locale(Country.USA))
-                .thenReturn("Welcome");
+                .thenReturn(ENG_LOCAL_RESPONSE);
     }
 
     @Test
@@ -52,24 +54,10 @@ public class MessageSenderTest {
         String rusLocale = messageSenderImpl.send(rusHeaders);
         String engLocale = messageSenderImpl.send(engHeaders);
 
-        String russianExpected = "Добро пожаловать";
-        String engExpected = "Welcome";
+        String russianExpected = RUS_LOCAL_RESPONSE;
+        String engExpected = ENG_LOCAL_RESPONSE;
 
         Assertions.assertEquals(russianExpected, rusLocale);
         Assertions.assertEquals(engExpected, engLocale);
-    }
-
-    @Test
-    public void locale_test() {
-        String greeting = localizationService.locale(RUSSIA);
-        String expected = "Добро пожаловать";
-        Assertions.assertEquals(expected, greeting);
-    }
-
-    @Test
-    public void geoservice_by_ip_test() {
-        Location location = geoService.byIp(MOSCOW_IP);
-        Location expected = RUS_LOCATION;
-        Assertions.assertEquals(expected, location);
     }
 }
